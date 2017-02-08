@@ -91,7 +91,7 @@ $RECYCLE.BIN/
 .~lock.*#
 ### Rails template
 capybara-*.html
-.rspec
+#.rspec
 /log
 /tmp
 /db/*.sqlite3
