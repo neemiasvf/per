@@ -15,6 +15,7 @@ gem 'coffee-rails', '~> 4.2', '>= 4.2.1'
 gem 'jquery-rails', '~> 4.2', '>= 4.2.2'
 gem 'turbolinks', '~> 5.0', '>= 5.0.1'
 gem 'jbuilder', '~> 2.6', '>= 2.6.1'
+# gem 'therubyracer', '~> 0.12.3', platform: :ruby
 
 group :development, :test do
   gem 'byebug', '~> 9.0', '>= 9.0.6', platform: :mri

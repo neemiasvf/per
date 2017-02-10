@@ -1,0 +1,33 @@
+image: ruby:2.3.3
+services:
+  - postgres:latest
+
+variables:
+  POSTGRES_DB: per_test
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: ""
+
+stages:
+  - test
+
+before_script:
+  - bundle install
+  - export RAILS_ENV=test
+  - bundle exec rake db:migrate:reset
+  - bundle exec rake db:test:prepare
+
+rspec:
+  stage: test
+  tags:
+    - ruby
+    - postgres
+  script:
+    - bundle exec rspec
+
+cucumber:
+  stage: test
+  tags:
+    - ruby
+    - postgres
+  script:
+    - bundle exec cucumber
