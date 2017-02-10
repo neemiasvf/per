@@ -1,0 +1,42 @@
+image: ruby:2.3.3
+
+services:
+  - postgres:latest
+
+variables:
+  POSTGRES_DB: per_test
+  DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/$POSTGRES_DB"
+
+cache:
+  paths:
+    - vendor/ruby
+
+before_script:
+  - ruby -v
+  - apt-get update -q && apt-get install nodejs -yqq
+  - gem install bundler --no-ri --no-rdoc
+  - bundle install -j $(nproc) --path vendor
+  - export RAILS_ENV=test
+  - bundle exec rake db:migrate:reset
+  - bundle exec rake db:test:prepare
+
+stages:
+  - test
+
+rspec:
+  stage: test
+  tags:
+    - ruby
+    - postgres
+    - linux
+  script:
+    - bundle exec rspec
+
+cucumber:
+  stage: test
+  tags:
+    - ruby
+    - postgres
+    - linux
+  script:
+    - bundle exec cucumber
