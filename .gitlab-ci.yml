@@ -6,22 +6,24 @@ services:
 variables:
   POSTGRES_DB: per_test
   DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/$POSTGRES_DB"
+  APP_REPOSITORY: 'git@gitlab.com:neemiasvf/per.git'
+  AWS_ACCESS_KEY_ID: 'AKIAJFDCRLGVC2W5CCGA'
+  AWS_SECRET_ACCESS_KEY: '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'
+  AWS_APP_NAME: 'per'
+  AWS_DEPLOYMENT_GROUP: 'staging'
+  AWS_REGION: 'sa-east-1'
+  HEROKU_APP_NAME: 'prediction-engine-rails'
+  HEROKU_API_KEY: '04265483-540c-4f1c-80fd-af8f8e95b2ce'
 
 cache:
   paths:
     - vendor/ruby
 
 before_script:
-  - ruby -v
-  - apt-get update -q && apt-get install nodejs -yqq
-  - gem install bundler --no-ri --no-rdoc
-  - bundle install -j $(nproc) --path vendor
-  - export RAILS_ENV=test
-  - bundle exec rake db:migrate:reset
-  - bundle exec rake db:test:prepare
 
 stages:
   - test
+  - deploy
 
 rspec:
   stage: test
@@ -30,6 +32,13 @@ rspec:
     - postgres
     - linux
   script:
+    - ruby -v
+    - apt-get update -q && apt-get install nodejs -yqq
+    - gem install bundler --no-ri --no-rdoc
+    - bundle install -j $(nproc) --path vendor
+    - export RAILS_ENV=test
+    - bundle exec rake db:migrate:reset
+    - bundle exec rake db:test:prepare
     - bundle exec rspec
 
 cucumber:
@@ -39,4 +48,39 @@ cucumber:
     - postgres
     - linux
   script:
+    - ruby -v
+    - apt-get update -q && apt-get install nodejs -yqq
+    - gem install bundler --no-ri --no-rdoc
+    - bundle install -j $(nproc) --path vendor
+    - export RAILS_ENV=test
+    - bundle exec rake db:migrate:reset
+    - bundle exec rake db:test:prepare
     - bundle exec cucumber
+
+auto-deploy-staging-to-heroku:
+  stage: deploy
+  tags:
+    - ruby
+    - linux
+  script:
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKY_APP_NAME --api-key=$HEROKU_API_KEY
+  environment:
+    name: staging
+    url: https://prediction-engine-rails.herokuapp.com
+  only:
+    - staging
+
+deploy-staging-to-aws:
+  stage: deploy
+  tags:
+    - ruby
+    - linux
+  script:
+    - gem install dpl
+    - dpl --provider=codedeploy --access-key-id=$AWS_ACCESS_KEY_ID --secret_access_key=$AWS_SECRET_ACCESS_KEY --application=$AWS_APP_NAME --deployment_group=$AWS_DEPLOYMENT_GROUP --revision_type=github --repository=$APP_REPOSITORY --region=$AWS_REGION --wait-until-deployed=true
+  environment:
+    name: staging
+  when: manual
+  only:
+    - staging
