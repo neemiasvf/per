@@ -23,7 +23,7 @@ stages:
   - test
   - deploy
 
-rspec-cucumber:
+rspec:
   stage: test
   tags:
     - ruby
@@ -38,6 +38,21 @@ rspec-cucumber:
     - bundle exec rake db:migrate:reset
     - bundle exec rake db:test:prepare
     - bundle exec rspec
+
+cucumber:
+  stage: test
+  tags:
+    - ruby
+    - postgres
+    - linux
+  script:
+    - ruby -v
+    - apt-get update -q && apt-get install nodejs -yqq
+    - gem install bundler --no-ri --no-rdoc
+    - bundle install -j $(nproc) --clean --path=vendor/cache --without development production
+    - export RAILS_ENV=test
+    - bundle exec rake db:migrate:reset
+    - bundle exec rake db:test:prepare
     - bundle exec cucumber
 
 auto-deploy-staging-to-heroku:
