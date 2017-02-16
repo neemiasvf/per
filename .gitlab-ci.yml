@@ -17,15 +17,13 @@ variables:
 
 cache:
   paths:
-    - vendor/ruby
-
-before_script:
+    - vendor/cache
 
 stages:
   - test
   - deploy
 
-rspec:
+rspec-cucumber:
   stage: test
   tags:
     - ruby
@@ -35,26 +33,11 @@ rspec:
     - ruby -v
     - apt-get update -q && apt-get install nodejs -yqq
     - gem install bundler --no-ri --no-rdoc
-    - bundle install -j $(nproc) --path vendor
+    - bundle install -j $(nproc) --clean --path=vendor/cache --without development production
     - export RAILS_ENV=test
     - bundle exec rake db:migrate:reset
     - bundle exec rake db:test:prepare
     - bundle exec rspec
-
-cucumber:
-  stage: test
-  tags:
-    - ruby
-    - postgres
-    - linux
-  script:
-    - ruby -v
-    - apt-get update -q && apt-get install nodejs -yqq
-    - gem install bundler --no-ri --no-rdoc
-    - bundle install -j $(nproc) --path vendor
-    - export RAILS_ENV=test
-    - bundle exec rake db:migrate:reset
-    - bundle exec rake db:test:prepare
     - bundle exec cucumber
 
 auto-deploy-staging-to-heroku:
@@ -64,7 +47,7 @@ auto-deploy-staging-to-heroku:
     - linux
   script:
     - gem install dpl
-    - dpl --provider=heroku --app=$HEROKY_APP_NAME --api-key=$HEROKU_API_KEY
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
   environment:
     name: staging
     url: https://prediction-engine-rails.herokuapp.com
