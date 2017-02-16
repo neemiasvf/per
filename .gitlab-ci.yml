@@ -4,6 +4,7 @@ services:
   - postgres:latest
 
 variables:
+  GIT_STRATEGY: fetch
   POSTGRES_DB: per_test
   DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/$POSTGRES_DB"
   APP_REPOSITORY: 'git@gitlab.com:neemiasvf/per.git'
@@ -23,13 +24,13 @@ stages:
   - test
   - deploy
 
-rspec:
+.job_template: &prepare_test
   stage: test
   tags:
     - ruby
     - postgres
     - linux
-  script:
+  before_script:
     - ruby -v
     - apt-get update -q && apt-get install nodejs -yqq
     - gem install bundler --no-ri --no-rdoc
@@ -37,48 +38,39 @@ rspec:
     - export RAILS_ENV=test
     - bundle exec rake db:migrate:reset
     - bundle exec rake db:test:prepare
-    - bundle exec rspec
 
-cucumber:
-  stage: test
-  tags:
-    - ruby
-    - postgres
-    - linux
-  script:
-    - ruby -v
-    - apt-get update -q && apt-get install nodejs -yqq
-    - gem install bundler --no-ri --no-rdoc
-    - bundle install -j $(nproc) --clean --path=vendor/cache --without development production
-    - export RAILS_ENV=test
-    - bundle exec rake db:migrate:reset
-    - bundle exec rake db:test:prepare
-    - bundle exec cucumber
-
-auto-deploy-staging-to-heroku:
+.job_template: &prepare_deploy
   stage: deploy
   tags:
     - ruby
     - linux
-  script:
+  before_script:
+    - ruby -v
     - gem install dpl
+  environment:
+    name: staging
+  only:
+    - staging
+  when: on_success
+
+rspec:
+  <<: *prepare_test
+  script: bundle exec rspec
+
+cucumber:
+  <<: *prepare_test
+  script: bundle exec cucumber
+
+auto deploy staging to heroku:
+  <<: *prepare_deploy
+  script:
     - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
   environment:
     name: staging
     url: https://prediction-engine-rails.herokuapp.com
-  only:
-    - staging
 
-deploy-staging-to-aws:
-  stage: deploy
-  tags:
-    - ruby
-    - linux
+deploy staging to aws:
+  <<: *prepare_deploy
   script:
-    - gem install dpl
     - dpl --provider=codedeploy --access-key-id=$AWS_ACCESS_KEY_ID --secret_access_key=$AWS_SECRET_ACCESS_KEY --application=$AWS_APP_NAME --deployment_group=$AWS_DEPLOYMENT_GROUP --revision_type=github --repository=$APP_REPOSITORY --region=$AWS_REGION --wait-until-deployed=true
-  environment:
-    name: staging
   when: manual
-  only:
-    - staging
