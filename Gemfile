@@ -34,6 +34,15 @@ gem 'annotate', '~> 2.7', '>= 2.7.1'
 gem 'bootstrap-sass', '~> 3.3', '>= 3.3.7'
 gem 'paperclip', '~> 5.1'
 gem 'simple_form', '~> 3.4'
+gem 'devise', '~> 4.2'
+gem 'font-awesome-sass', '~> 4.7'
+gem 'jquery-ui-rails', '~> 6.0', '>= 6.0.1'
+source 'https://rails-assets.org' do
+  gem 'rails-assets-adminlte', '~> 2.3', '>= 2.3.11'
+  gem 'rails-assets-ionicons', '~> 2.0', '>= 2.0.1'
+  gem 'rails-assets-iCheck', '~> 1.0', '>= 1.0.2'
+  gem 'rails-assets-slimScroll', '~> 1.3', '>= 1.3.8'
+end
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
