@@ -40,6 +40,8 @@ gem 'jquery-ui-rails', '~> 6.0', '>= 6.0.1'
 source 'https://rails-assets.org' do
   gem 'rails-assets-adminlte', '~> 2.3', '>= 2.3.11'
   gem 'rails-assets-ionicons', '~> 2.0', '>= 2.0.1'
+  gem 'rails-assets-iCheck', '~> 1.0', '>= 1.0.2'
+  gem 'rails-assets-slimScroll', '~> 1.3', '>= 1.3.8'
 end
 
 group :development, :test do

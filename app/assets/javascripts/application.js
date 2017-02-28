@@ -15,5 +15,15 @@
 //= require jquery-ui
 //= require turbolinks
 //= require bootstrap-sprockets
-// require adminlte
+//= require iCheck
+//= require slimScroll
+//= require adminlte
 //= require_tree .
+
+$(document).on("turbolinks:load", function() {
+    $('input').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'iradio_square-blue',
+        increaseArea: '20%' // optional
+    });
+});

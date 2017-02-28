@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Prediction Engine Rails</title>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <%= csrf_meta_tags %>
-
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <title><%= yield :title %></title>
   </head>
 
-  <body class='skin-blue'>
-    <div class='wrapper'>
-      <div class='content-wrapper'>
-        <%= yield %>
-      </div>
-    </div>
-  </body>
+  <% if notice %>
+    <p class="alert alert-success"><%= notice %></p>
+  <% end %>
+  <% if alert %>
+    <p class="alert alert-danger"><%= alert %></p>
+  <% end %>
+  <%= yield %>
 </html>

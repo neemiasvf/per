@@ -1,8 +1,12 @@
-# Designed and expected to run on specific shell-based runners that already have this kind of environment setup.
+image: ruby:2.3.3
+
+services:
+  - postgres:latest
 
 variables:
   GIT_STRATEGY: fetch
   POSTGRES_DB: per_test
+  DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/$POSTGRES_DB"
   APP_REPOSITORY: 'git@gitlab.com:neemiasvf/per.git'
   AWS_ACCESS_KEY_ID: 'AKIAJFDCRLGVC2W5CCGA'
   AWS_SECRET_ACCESS_KEY: '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'
@@ -11,6 +15,10 @@ variables:
   AWS_REGION: 'sa-east-1'
   HEROKU_APP_NAME: 'prediction-engine-rails'
   HEROKU_API_KEY: '04265483-540c-4f1c-80fd-af8f8e95b2ce'
+
+cache:
+  paths:
+    - vendor/cache
 
 stages:
   - test
@@ -24,8 +32,9 @@ stages:
     - linux
   before_script:
     - ruby -v
-    - rvm use @global && gem update && gem cleanup && rvm use @per
-    - bundle install
+    - apt-get update -q && apt-get install nodejs -yqq
+    - gem install bundler --no-ri --no-rdoc
+    - bundle install -j $(nproc) --clean --path=vendor/cache --without development production
     - export RAILS_ENV=test
     - bundle exec rake db:migrate:reset
     - bundle exec rake db:test:prepare
@@ -37,7 +46,7 @@ stages:
     - linux
   before_script:
     - ruby -v
-    - rvm use @global && gem update && gem cleanup
+    - gem install dpl
   environment:
     name: staging
   only:
