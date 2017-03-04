@@ -23,7 +23,7 @@ default: &default
   timeout: 5000
   host: localhost
   username: per
-  password: per
+  password: 'per'
 
 development:
   <<: *default
@@ -85,5 +85,5 @@ test:
 production:
   <<: *default
   database: per_production
-  username: per
-  password: per
+  username: <%= ENV['PER_DATABASE_USER'] %>
+  password: <%= ENV['PER_DATABASE_PASSWORD'] %>
