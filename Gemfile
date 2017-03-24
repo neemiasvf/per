@@ -50,6 +50,16 @@ group :development, :test do
   gem 'launchy', '~> 2.4', '>= 2.4.3'
 end
 
+group :development do
+  gem 'capistrano', '~> 3.7', '>= 3.7.2', require: false
+  gem 'capistrano-rails', '~> 1.2', '>= 1.2.2', require: false
+  gem 'capistrano-rvm', '~> 0.1.2', require: false
+  gem 'capistrano3-puma', '~> 1.2', '>= 1.2.1', require: false
+  gem 'capistrano3-nginx', '~> 2.1', '>= 2.1.5', require: false
+  gem 'capistrano-upload-config', '~> 0.7.0', require: false
+  gem 'capistrano-locally', '~> 0.2.4', require: false
+end
+
 group :test do
   gem 'shoulda-matchers', '~> 3.1', '>= 3.1.1'
   gem 'database_cleaner', '~> 1.5', '>= 1.5.3'

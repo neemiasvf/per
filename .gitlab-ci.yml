@@ -13,10 +13,21 @@ variables:
   HEROKU_API_KEY: '04265483-540c-4f1c-80fd-af8f8e95b2ce'
 
 stages:
+  - prepare
   - test
   - deploy
 
-.job_template: &prepare_test
+.job_template: &prepare
+  stage: prepare
+  tags:
+    - ruby
+    - postgres
+    - linux
+  before_script:
+    - ruby -v
+    - rvm use @global && gem update --system && gem update && gem cleanup && rvm use @per
+
+.job_template: &test
   stage: test
   tags:
     - ruby
@@ -24,44 +35,49 @@ stages:
     - linux
   before_script:
     - ruby -v
-    - rvm use @global && gem update && gem cleanup && rvm use @per
-    - bundle install
-    - export RAILS_ENV=test
-    - bundle exec rake db:migrate:reset
-    - bundle exec rake db:test:prepare
+    - rvm use @per
 
-.job_template: &prepare_deploy
+.job_template: &deploy
   stage: deploy
   tags:
     - ruby
     - linux
   before_script:
     - ruby -v
-    - rvm use @global && gem update && gem cleanup
+    - rvm use @per
   environment:
     name: staging
   only:
     - staging
   when: on_success
 
+
+prepare test:
+  <<: *prepare
+  script:
+    - bundle install --system --without development production
+    - export RAILS_ENV=test
+    - bundle exec rake db:migrate:reset
+    - bundle exec rake db:test:prepare
+
+prepare auto deploy:
+  <<: *prepare
+  script:
+    - bundle install --system --with development
+    - export RAILS_ENV=development
+
 rspec:
-  <<: *prepare_test
+  <<: *test
   script: bundle exec rspec
 
 cucumber:
-  <<: *prepare_test
+  <<: *test
   script: bundle exec cucumber
 
-auto deploy staging to heroku:
-  <<: *prepare_deploy
+auto deploy staging to aws:
+  <<: *deploy
   script:
-    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
+    - bundle exec cap staging deploy
   environment:
     name: staging
-    url: https://prediction-engine-rails.herokuapp.com
-
-deploy staging to aws:
-  <<: *prepare_deploy
-  script:
-    - dpl --provider=codedeploy --access-key-id=$AWS_ACCESS_KEY_ID --secret_access_key=$AWS_SECRET_ACCESS_KEY --application=$AWS_APP_NAME --deployment_group=$AWS_DEPLOYMENT_GROUP --revision_type=github --repository=$APP_REPOSITORY --region=$AWS_REGION --wait-until-deployed=true
-  when: manual
+    url: https://per.neemiasvf.me
