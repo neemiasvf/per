@@ -63,8 +63,8 @@ prepare test:
 prepare auto deploy:
   <<: *prepare
   script:
-    - bundle install --system --with development
-    - export RAILS_ENV=development
+    - bundle install --system --with development production
+    - bundle install --path /var/www/per/shared/bundle --with development production
 
 rspec:
   <<: *test
@@ -80,4 +80,4 @@ auto deploy staging to aws:
     - bundle exec cap staging deploy
   environment:
     name: staging
-    url: https://per.neemiasvf.me
+    url: http://per.neemiasvf.me
