@@ -1,22 +1,22 @@
-# Designed and expected to run on specific shell-based runners that already have this kind of environment setup.
+# Designed and expected to run on specific shell-based runners
+# that already have this kind of environment setup.
+# Validated at https://gitlab.com/ci/lint
 
+# Variables
 variables:
   GIT_STRATEGY: fetch
-  POSTGRES_DB: per_test
-  APP_REPOSITORY: 'git@gitlab.com:neemiasvf/per.git'
-  AWS_ACCESS_KEY_ID: 'AKIAJFDCRLGVC2W5CCGA'
-  AWS_SECRET_ACCESS_KEY: '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'
-  AWS_APP_NAME: 'per'
-  AWS_DEPLOYMENT_GROUP: 'staging'
-  AWS_REGION: 'sa-east-1'
-  HEROKU_APP_NAME: 'prediction-engine-rails'
-  HEROKU_API_KEY: '04265483-540c-4f1c-80fd-af8f8e95b2ce'
+  RUBY_VERSION: 2.3.3
+  RUBY_GEMSET: per
 
+
+# Stages
 stages:
   - prepare
   - test
   - deploy
 
+
+# Templates
 .job_template: &prepare
   stage: prepare
   tags:
@@ -24,8 +24,15 @@ stages:
     - postgres
     - linux
   before_script:
-    - ruby -v
-    - rvm use @global && gem update --system && gem update && gem cleanup && rvm use @per
+    - \curl -sSL https://get.rvm.io | bash -s stable --ignore-dotfiles --version latest
+    - rvm reload
+    - rvm install $RUBY_VERSION --default
+    - rvm use @global
+    - gem update --system --no-ri --no-rdoc
+    - gem update --no-ri --no-rdoc
+    - gem install bundler --no-ri --no-rdoc
+    - gem cleanup
+    - rvm $RUBY_VERSION@$RUBY_GEMSET
 
 .job_template: &test
   stage: test
@@ -34,17 +41,18 @@ stages:
     - postgres
     - linux
   before_script:
-    - ruby -v
-    - rvm use @per
+    - rvm gemset list
+    - rvm $RUBY_VERSION@$RUBY_GEMSET
 
 .job_template: &deploy
   stage: deploy
   tags:
     - ruby
+    - postgres
     - linux
   before_script:
-    - ruby -v
-    - rvm use @per
+    - rvm gemset list
+    - rvm $RUBY_VERSION@$RUBY_GEMSET
   environment:
     name: staging
   only:
@@ -52,19 +60,24 @@ stages:
   when: on_success
 
 
+# Jobs
 prepare test:
   <<: *prepare
   script:
     - bundle install --system --without development production
-    - export RAILS_ENV=test
-    - bundle exec rake db:migrate:reset
-    - bundle exec rake db:test:prepare
+    - RAILS_ENV=test bundle exec rake db:migrate:reset
+    - RAILS_ENV=test bundle exec rake db:test:prepare
 
 prepare auto deploy:
   <<: *prepare
   script:
     - bundle install --system --with development production
-    - bundle install --path /var/www/per/shared/bundle --with development production
+    - bundle install --path /var/www/$RUBY_GEMSET/shared/bundle --with development production
+    - RAILS_ENV=production bundle exec rake db:create
+  environment:
+    name: staging
+  only:
+    - staging
 
 rspec:
   <<: *test
@@ -74,7 +87,7 @@ cucumber:
   <<: *test
   script: bundle exec cucumber
 
-auto deploy staging to aws:
+auto deploy staging:
   <<: *deploy
   script:
     - bundle exec cap staging deploy
