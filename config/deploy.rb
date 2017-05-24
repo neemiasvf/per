@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.8.0'
+lock '3.8'
 
 set :application, 'per'
 set :repo_url, 'git@gitlab.com:neemiasvf/per.git'

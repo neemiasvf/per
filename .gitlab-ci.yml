@@ -5,7 +5,7 @@
 # Variables
 variables:
   GIT_STRATEGY: fetch
-  RUBY_VERSION: 2.3.3
+  RUBY_VERSION: 2.4.1
   RUBY_GEMSET: per
 
 
@@ -32,7 +32,7 @@ stages:
     - gem update --no-ri --no-rdoc
     - gem install bundler --no-ri --no-rdoc
     - gem cleanup
-    - rvm $RUBY_VERSION@$RUBY_GEMSET
+    - rvm $RUBY_VERSION@$RUBY_GEMSET --create
 
 .job_template: &test
   stage: test
@@ -42,7 +42,7 @@ stages:
     - linux
   before_script:
     - rvm gemset list
-    - rvm $RUBY_VERSION@$RUBY_GEMSET
+    - rvm $RUBY_VERSION@$RUBY_GEMSET --create
 
 .job_template: &deploy
   stage: deploy
@@ -52,7 +52,7 @@ stages:
     - linux
   before_script:
     - rvm gemset list
-    - rvm $RUBY_VERSION@$RUBY_GEMSET
+    - rvm $RUBY_VERSION@$RUBY_GEMSET --create
   environment:
     name: staging
   only:
@@ -64,15 +64,15 @@ stages:
 prepare test:
   <<: *prepare
   script:
-    - bundle install --system --without development production
+    - bundle install --system
     - RAILS_ENV=test bundle exec rake db:migrate:reset
     - RAILS_ENV=test bundle exec rake db:test:prepare
 
 prepare auto deploy:
   <<: *prepare
   script:
-    - bundle install --system --with development production
-    - bundle install --path /var/www/$RUBY_GEMSET/shared/bundle --with development production
+    - bundle install --system
+    - bundle install --path /var/www/$RUBY_GEMSET/shared/bundle
     - RAILS_ENV=production bundle exec rake db:create
   environment:
     name: staging
