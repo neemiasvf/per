@@ -52,8 +52,8 @@ end
 
 group :development do
   gem 'capistrano', '~> 3.8', '>= 3.8.1', require: false
-  gem 'capistrano-rails', '~> 1.2', '>= 1.2.3', require: false
   gem 'capistrano-rvm', '~> 0.1.2', require: false
+  gem 'capistrano-rails', '~> 1.2', '>= 1.2.3', require: false
   gem 'capistrano3-puma', '~> 3.1', require: false
   gem 'capistrano3-nginx', '~> 2.1', '>= 2.1.6', require: false
   gem 'capistrano-upload-config', '~> 0.7.0', require: false
