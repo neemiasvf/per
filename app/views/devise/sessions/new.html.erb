@@ -1,29 +1,19 @@
-<% title 'Prediction Engine Rails | Log in' %>
-<body class="hold-transition login-page">
-<div class="login-box">
-  <div class="login-logo">
-    <a href=<%= root_path %>><b>PE</b>Rails</a>
-  </div>
-
-  <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
-
-    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-        <div class="form-inputs">
-          <%= f.input :email, required: true, autofocus: true %>
-          <%= f.input :password, required: true, autofocus: true %>
+<% title 'Login' %>
+<body class="bg-dark login-page">
+  <div class="container">
+    <div class="card card-login mx-auto mt-5">
+      <div class="card-header">Login</div>
+      <div class="card-body">
+        <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+          <%= render partial: 'partials/email_field', locals: {f: f, label: true } %>
+          <%= f.input :password, required: false, autofocus: true, placeholder: 'Enter password' %>
+          <div class='form-group'><%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %></div>
+          <%= f.submit 'Login', class: 'btn btn-primary btn-block' %>
+        <% end %>
+        <div class='text-center mt-3'>
+          <%= render 'devise/shared/links' %>
         </div>
-
-        <div class='row'>
-          <div class="col-xs-7">
-            <%= f.input :remember_me, as: :boolean, wrapper: :vertical_boolean_icheck if devise_mapping.rememberable? %>
-          </div>
-          <div class='form-actions col-xs-5'>
-            <%= f.submit 'Log in', class: 'btn btn-primary btn-block btn-flat' %>
-          </div>
-        </div>
-    <% end %>
-    <hr />
-    <%= render 'devise/shared/links' %>
+      </div>
+    </div>
   </div>
-</div>
+</body>

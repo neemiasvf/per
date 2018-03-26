@@ -30,19 +30,20 @@ end
 
 
 ### App-specific gems
-gem 'annotate', '~> 2.7', '>= 2.7.2'
+gem 'jquery-ui-rails', '~> 6.0', '>= 6.0.1'
+gem 'font-awesome-rails', '~> 4.7', '>= 4.7.0.3'
 gem 'bootstrap', '~> 4.0'
+gem 'bootstrap_sb_admin_base_v1', '~> 0.1.0'
+gem 'annotate', '~> 2.7', '>= 2.7.2'
 gem 'paperclip', '~> 6.0'
 gem 'simple_form', '~> 3.5', '>= 3.5.1'
 gem 'devise', '~> 4.4', '>= 4.4.3'
-gem 'font-awesome-sass', '~> 5.0', '>= 5.0.6.2'
-gem 'jquery-ui-rails', '~> 6.0', '>= 6.0.1'
-source 'https://rails-assets.org' do
-  gem 'rails-assets-adminlte', '~> 2.3', '>= 2.3.11'
-  gem 'rails-assets-ionicons', '~> 4.0', '>= 4.0.0.18'
-  gem 'rails-assets-iCheck', '~> 1.0', '>= 1.0.2'
-  gem 'rails-assets-slimScroll', '~> 1.3', '>= 1.3.8'
-end
+# source 'https://rails-assets.org' do
+#   gem 'rails-assets-adminlte', '~> 2.3', '>= 2.3.11'
+#   gem 'rails-assets-ionicons', '~> 4.0', '>= 4.0.0.18'
+#   gem 'rails-assets-iCheck', '~> 1.0', '>= 1.0.2'
+#   gem 'rails-assets-slimScroll', '~> 1.3', '>= 1.3.8'
+# end
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.7', '>= 3.7.2'

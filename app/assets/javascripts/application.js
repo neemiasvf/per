@@ -10,22 +10,20 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require turbolinks
 //= require jquery3
 //= require jquery_ujs
 //= require jquery-ui
-//= require turbolinks
 //= require popper
 //= require bootstrap
-//= require bootstrap-sprockets
-//= require iCheck
-//= require slimScroll
-//= require adminlte
+//= require bootstrap_sb_admin_base_v1
 //= require_tree .
 
+/*
 $(document).on("turbolinks:load", function() {
     $('input').iCheck({
         checkboxClass: 'icheckbox_square-blue',
         radioClass: 'iradio_square-blue',
         increaseArea: '20%' // optional
     });
-});
+});*/

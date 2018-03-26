@@ -1,0 +1,5 @@
+<% unless label %>
+  <%= f.input :email, required: false, autofocus: true, placeholder: 'Enter email address', label: false %>
+<% else %>
+  <%= f.input :email, required: false, autofocus: true, placeholder: 'Enter email address' %>
+<% end %>
