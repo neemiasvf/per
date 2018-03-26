@@ -1,4 +1,4 @@
-class HomeController < AdminlteController
+class HomeController < SbadminController
   def index
   end
 end

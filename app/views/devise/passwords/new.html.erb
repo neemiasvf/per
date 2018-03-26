@@ -1,15 +1,21 @@
-<h2>Forgot your password?</h2>
-
-<%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= f.error_notification %>
-
-  <div class="form-inputs">
-    <%= f.input :email, required: true, autofocus: true %>
+<% title 'Reset Password' %>
+<body class='bg-dark'>
+  <div class="container">
+    <div class="card card-login mx-auto mt-5">
+      <div class="card-header">Reset Password</div>
+      <div class="card-body">
+        <div class="text-center mt-4 mb-5">
+          <h4>Forgot your password?</h4>
+          <p>Enter your email address and we will send you instructions on how to reset your password.</p>
+        </div>
+        <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+          <%= render partial: 'partials/email_field', locals: {f: f, label: false } %>
+          <%= f.submit 'Reset Password', class: 'btn btn-primary btn-block' %>
+        <% end %>
+        <div class='text-center mt-3'>
+          <%= render 'devise/shared/links' %>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Send me reset password instructions" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</body>
