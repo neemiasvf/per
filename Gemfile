@@ -55,9 +55,11 @@ group :development do
   gem 'capistrano', '~> 3.10', '>= 3.10.1', require: false
   gem 'capistrano-rvm', '~> 0.1.2', require: false
   gem 'capistrano-rails', '~> 1.3', '>= 1.3.1', require: false
-  gem 'capistrano3-puma', '~> 3.1', '>= 3.1.1', require: false
-  gem 'capistrano3-nginx', '~> 2.1', '>= 2.1.6', require: false
-  gem 'capistrano-upload-config', '~> 0.8.2', require: false
+  gem 'capistrano-passenger', '~> 0.2.0', require: false
+  # gem 'capistrano-bundler', '~> 1.3', require: false
+  # gem 'capistrano3-puma', '~> 3.1', '>= 3.1.1', require: false
+  # gem 'capistrano3-nginx', '~> 2.1', '>= 2.1.6', require: false
+  # gem 'capistrano-upload-config', '~> 0.8.2', require: false
   gem 'capistrano-locally', '~> 0.2.5', require: false
 end
 

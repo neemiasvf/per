@@ -5,7 +5,7 @@
 ### Variables
 variables:
   GIT_STRATEGY: fetch
-  RUBY_VERSION: 2.4.1
+  RUBY_VERSION: 2.5.0
   RUBY_GEMSET: per
 
 
@@ -80,9 +80,11 @@ prepare test:
 prepare auto deploy:
   <<: *prepare
   script:
-    - bundle install --path /var/www/$RUBY_GEMSET/shared/bundle
+    - bundle install --path /home/neemiasvf/per/shared/bundle
     - bin/rails db:environment:set RAILS_ENV=production
     - bundle exec rake db:create
+    - cp config/secrets.staging.yml /home/neemiasvf/per/shared/config/secrets.yml
+    - cp config/database.staging.yml /home/neemiasvf/per/shared/config/database.yml
   environment:
     name: staging
   only:

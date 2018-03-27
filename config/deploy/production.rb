@@ -5,9 +5,9 @@
 
 # server "example.com", user: "deploy", roles: %w{app db web}, my_property: :my_value
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
-# server "db.example.com", user: "deploy", roles: %w{db}
+# server "db.example. com", user: "deploy", roles: %w{db}
 
-# server 'aws.neemiasvf.me', user: 'neemiasvf', roles: %w{app db web}, primary: true
+server 'per.neemiasvf.me', user: 'neemiasvf', roles: %w{app db web}
 
 
 # role-based syntax
@@ -18,9 +18,11 @@
 # property set. Specify the username and a domain or IP for the server.
 # Don't use `:all`, it's a meta role.
 
-role :app, %w{localhost}
-role :web, %w{localhost}
-role :db,  %w{localhost}
+# role :app, %w{deploy@example.com}, my_property: :my_value
+# role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
+# role :db,  %w{deploy@example.com}
+
+
 
 # Configuration
 # =============
@@ -58,9 +60,3 @@ role :db,  %w{localhost}
 #     auth_methods: %w(publickey password)
 #     # password: "please use keys"
 #   }
-
-# set :ssh_options, {
-#     keys: %w(~/Documents/me.neemiasvf.aws.pem),
-#     forward_agent: false,
-#     auth_methods: %w(publickey)
-# }
