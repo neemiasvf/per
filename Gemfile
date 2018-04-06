@@ -6,23 +6,23 @@ git_source(:github) do |repo_name|
 end
 
 ### Rails 5 default gems
-gem 'rails', '~> 5.1', '>= 5.1.5'
+gem 'rails', '~> 5.1', '>= 5.1.6'
 gem 'pg', '~> 1.0'
-gem 'puma', '~> 3.11', '>= 3.11.3'
+gem 'puma', '~> 3.11', '>= 3.11.4'
 gem 'sass-rails', '~> 5.0', '>= 5.0.7'
-gem 'uglifier', '~> 4.1', '>= 4.1.8'
+gem 'uglifier', '~> 4.1', '>= 4.1.9'
 gem 'coffee-rails', '~> 4.2', '>= 4.2.2'
 gem 'jquery-rails', '~> 4.3', '>= 4.3.1'
-gem 'turbolinks', '~> 5.1'
+gem 'turbolinks', '~> 5.1', '>= 5.1.1'
 gem 'jbuilder', '~> 2.7'
 # gem 'therubyracer', '~> 0.12.3', platform: :ruby
 
 group :development, :test do
-  gem 'byebug', '~> 10.0', platform: :mri
+  gem 'byebug', '~> 10.0', '>= 10.0.2', platform: :mri
 end
 
 group :development do
-  gem 'web-console', '~> 3.5', '>= 3.5.1'
+  gem 'web-console', '~> 3.6'
   gem 'listen', '~> 3.1', '>= 3.1.5'
   gem 'spring', '~> 2.0', '>= 2.0.2'
   gem 'spring-watcher-listen', '~> 2.0', '>= 2.0.1'
@@ -31,12 +31,12 @@ end
 
 ### App-specific gems
 gem 'jquery-ui-rails', '~> 6.0', '>= 6.0.1'
-gem 'font-awesome-rails', '~> 4.7', '>= 4.7.0.3'
+gem 'font-awesome-rails', '~> 4.7', '>= 4.7.0.4'
 gem 'bootstrap', '~> 4.0'
 gem 'bootstrap_sb_admin_base_v1', '~> 0.1.0'
 gem 'annotate', '~> 2.7', '>= 2.7.2'
 gem 'paperclip', '~> 6.0'
-gem 'simple_form', '~> 3.5', '>= 3.5.1'
+gem 'simple_form', '~> 4.0'
 gem 'devise', '~> 4.4', '>= 4.4.3'
 # source 'https://rails-assets.org' do
 #   gem 'rails-assets-adminlte', '~> 2.3', '>= 2.3.11'
@@ -55,10 +55,12 @@ group :development do
   gem 'capistrano', '~> 3.10', '>= 3.10.1', require: false
   gem 'capistrano-rvm', '~> 0.1.2', require: false
   gem 'capistrano-rails', '~> 1.3', '>= 1.3.1', require: false
-  gem 'capistrano3-puma', '~> 3.1', '>= 3.1.1', require: false
-  gem 'capistrano3-nginx', '~> 2.1', '>= 2.1.6', require: false
-  gem 'capistrano-upload-config', '~> 0.8.2', require: false
-  gem 'capistrano-locally', '~> 0.2.5', require: false
+  gem 'capistrano-passenger', '~> 0.2.0', require: false
+  # gem 'capistrano-bundler', '~> 1.3', require: false
+  # gem 'capistrano3-puma', '~> 3.1', '>= 3.1.1', require: false
+  # gem 'capistrano3-nginx', '~> 2.1', '>= 2.1.6', require: false
+  # gem 'capistrano-upload-config', '~> 0.8.2', require: false
+  # gem 'capistrano-locally', '~> 0.2.5', require: false
 end
 
 group :test do
