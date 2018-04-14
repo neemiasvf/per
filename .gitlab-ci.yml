@@ -5,7 +5,7 @@
 ### Variables
 variables:
   GIT_STRATEGY: fetch
-  RUBY_VERSION: 2.5.0
+  RUBY_VERSION: 2.4.4
   RUBY_GEMSET: per
 
 
@@ -26,18 +26,18 @@ stages:
     - postgres
     - linux
   before_script:
-    - \curl -sSL https://get.rvm.io | bash -s stable --ignore-dotfiles --version latest
-    - rvm reload
-    - rvm install $RUBY_VERSION --default
-    - rvm use @global
-    - gem update --system --no-ri --no-rdoc
-    - gem update --no-ri --no-rdoc
-    - gem install bundler --no-ri --no-rdoc
-    - gem cleanup
+#    - \curl -sSL https://get.rvm.io | bash -s stable --ignore-dotfiles --version latest
+#    - rvm reload
+#    - rvm install $RUBY_VERSION --default
+#    - rvm use @global
+#    - gem update --system --no-ri --no-rdoc
+#    - gem update --no-ri --no-rdoc
+#    - gem install bundler --no-ri --no-rdoc
+#    - gem cleanup
     - rvm $RUBY_VERSION@$RUBY_GEMSET --create
     - bundle install --system
-    - cp config/database.staging.yml config/database.yml
-    - cp config/secrets.staging.yml config/secrets.yml
+    - cp config/database.example.yml config/database.yml
+    - cp config/secrets.example.yml config/secrets.yml
 
 .job_template: &test
   stage: test
@@ -48,7 +48,7 @@ stages:
   before_script:
     - rvm gemset list
     - rvm $RUBY_VERSION@$RUBY_GEMSET
-    - cp config/database.staging.yml config/database.yml
+    - cp config/database.example.yml config/database.yml
     - cp .rspec.example .rspec
     - bin/rails db:environment:set RAILS_ENV=test
 
@@ -77,18 +77,19 @@ prepare test:
     - bundle exec rake db:migrate:reset
     - bundle exec rake db:test:prepare
 
-prepare auto deploy:
-  <<: *prepare
-  script:
-    - bundle install --path /home/neemiasvf/per/shared/bundle
-    - bin/rails db:environment:set RAILS_ENV=production
-    - bundle exec rake db:create
-    - cp config/secrets.staging.yml /home/neemiasvf/per/shared/config/secrets.yml
-    - cp config/database.staging.yml /home/neemiasvf/per/shared/config/database.yml
-  environment:
-    name: staging
-  only:
-    - staging
+
+#prepare auto deploy:
+#  <<: *prepare
+#  script:
+#    - bundle install --path /home/neemiasvf/per/shared/bundle
+#    - bin/rails db:environment:set RAILS_ENV=production
+#    - bundle exec rake db:create
+#    - cp config/secrets.example.yml /home/neemiasvf/per/shared/config/secrets.yml
+#    - cp config/database.example.yml /home/neemiasvf/per/shared/config/database.yml
+#  environment:
+#    name: staging
+#  only:
+#    - staging
 
 rspec:
   <<: *test
@@ -100,7 +101,7 @@ cucumber:
 
 auto deploy staging:
   <<: *deploy
-  script: bundle exec cap staging deploy
+  script: bundle exec cap production deploy
   environment:
     name: staging
     url: http://per.neemiasvf.me
