@@ -27,3 +27,7 @@ $(document).on("turbolinks:load", function() {
         increaseArea: '20%' // optional
     });
 });*/
+
+function goBack() {
+    window.history.back();
+}

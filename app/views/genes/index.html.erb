@@ -1,0 +1,41 @@
+<% title 'Genes' %>
+<% page_header 'Genes' %>
+
+<p id="notice"><%= notice %></p>
+
+<div class="card">
+  <div class="card-header">
+    <i class="fa fa-flask"></i> Registered Genes</div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <div id="dataTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+        <div class="row">
+          <table class="table table-bordered dataTable" cellspacing="0">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Sequence</th>
+              <th>Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @genes.each do |gene| %>
+              <tr>
+                <td><%= gene.name %></td>
+                <td><%= truncated_sequence gene.original_sequence %></td>
+                <td class="text-center">
+                  <%= link_to 'Show', gene, class: 'btn btn-info' %>
+                  <%= link_to 'Edit', edit_gene_path(gene), class: 'btn btn-warning' %>
+                  <%= link_to 'Destroy', gene, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' %>
+                </td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>

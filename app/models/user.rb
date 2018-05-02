@@ -7,5 +7,7 @@ class User < ApplicationRecord
   has_attached_file :picture, styles: { medium: '300x300>', thumb: '100x100>' }, default_url: '/default_profile_pic.png'
   validates_attachment_content_type :picture, content_type: /\Aimage\/.*\z/
 
+  has_many :genes, inverse_of: :user
+
   validates :full_name, :email, :encrypted_password, presence: true
 end

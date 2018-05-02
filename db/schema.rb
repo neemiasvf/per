@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170228034322) do
+ActiveRecord::Schema.define(version: 20180425194000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "genes", force: :cascade do |t|
+    t.string "name"
+    t.text "original_sequence"
+    t.text "sequence"
+    t.integer "donors", array: true
+    t.integer "acceptors", array: true
+    t.text "isoforms", array: true
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_genes_on_user_id"
+  end
 
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -42,4 +55,5 @@ ActiveRecord::Schema.define(version: 20170228034322) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "genes", "users"
 end

@@ -27,6 +27,10 @@
         <h1>
           <%= yield :page_header %>
           <small><%= yield :optional_description %></small>
+          <div class="pull-right">
+            <%= yield :edit_button %>
+            <%= yield :back_button %>
+          </div>
         </h1>
 
         <%= yield %>

@@ -31,8 +31,8 @@ end
 
 ### App-specific gems
 gem 'jquery-ui-rails', '~> 6.0', '>= 6.0.1'
-gem 'font-awesome-rails', '~> 4.7', '>= 4.7.0.4'
-gem 'bootstrap', '~> 4.0'
+gem 'font-awesome-sass', '~> 5.0', '>= 5.0.9'
+gem 'bootstrap', '~> 4.1'
 gem 'bootstrap_sb_admin_base_v1', '~> 0.1.0'
 gem 'annotate', '~> 2.7', '>= 2.7.2'
 gem 'paperclip', '~> 6.0'
@@ -66,7 +66,7 @@ end
 group :test do
   gem 'shoulda-matchers', '~> 3.1', '>= 3.1.2'
   gem 'database_cleaner', '~> 1.6', '>= 1.6.2'
-  gem 'factory_girl_rails', '~> 4.9'
+  gem 'factory_bot', '~> 4.8', '>= 4.8.2'
   gem 'faker', '~> 1.8', '>= 1.8.7'
   gem 'cucumber-rails', '~> 1.5', require: false
   gem 'poltergeist', '~> 1.17'
