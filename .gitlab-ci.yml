@@ -24,7 +24,7 @@ stages:
   tags:
     - ruby
     - postgres
-    - linux
+    - macOS
   before_script:
 #    - \curl -sSL https://get.rvm.io | bash -s stable --ignore-dotfiles --version latest
 #    - rvm reload
@@ -44,7 +44,7 @@ stages:
   tags:
     - ruby
     - postgres
-    - linux
+    - macOS
   before_script:
     - rvm gemset list
     - rvm $RUBY_VERSION@$RUBY_GEMSET
@@ -58,7 +58,7 @@ stages:
   tags:
     - ruby
     - postgres
-    - linux
+    - macOS
   before_script:
     - rvm gemset list
     - rvm $RUBY_VERSION@$RUBY_GEMSET
