@@ -5,7 +5,7 @@ if Rails.env.development?
 
   desc 'Generating test data'
   task create_test_data: :environment do
-    User.create(full_name: 'Test User', email: 'admin@teste.com', password: '123456', password_confirmation: '123456', confirmed_at: Date.now)
+    User.create(full_name: 'Test User', email: 'admin@teste.com', password: '123456', password_confirmation: '123456', confirmed_at: Date.today)
     puts 'Created Test User'
 
     15.times do
