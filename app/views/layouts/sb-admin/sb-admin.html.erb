@@ -27,7 +27,8 @@
         <h1>
           <%= yield :page_header %>
           <small><%= yield :optional_description %></small>
-          <div class="pull-right">
+          <div class="float-right">
+            <%= yield :queue_button %>
             <%= yield :new_button %>
             <%= yield :edit_button %>
             <%= yield :back_button %>

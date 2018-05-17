@@ -8,8 +8,9 @@ if Rails.env.development?
     User.create(full_name: 'Test User', email: 'admin@teste.com', password: '123456', password_confirmation: '123456', confirmed_at: Date.today)
     puts 'Created Test User'
 
-    15.times do
-      FactoryBot.create(:gene, user: User.find(1))
+    5.times do
+      FactoryBot.create(:analysis)
     end
+    puts 'Created Genes and Analysis'
   end
 end

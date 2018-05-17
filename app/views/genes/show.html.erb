@@ -4,8 +4,6 @@
 <% edit_button 'gene' %>
 <% back_button %>
 
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Name:</strong>
   <%= @gene.name %>
@@ -13,20 +11,5 @@
 
 <p>
   <strong>Original sequence:</strong>
-<div class="flex-wrap wrap-text"><%= @gene.original_sequence %></div>
-</p>
-
-<p>
-  <strong>Donors:</strong>
-  <%= @gene.donors %>
-</p>
-
-<p>
-  <strong>Acceptors:</strong>
-  <%= @gene.acceptors %>
-</p>
-
-<p>
-  <strong>Isoforms:</strong>
-  <%= @gene.isoforms %>
+  <div class="flex-wrap wrap-text"><%= @gene.original_sequence %></div>
 </p>

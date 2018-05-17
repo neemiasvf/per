@@ -4,4 +4,9 @@ Rails.application.routes.draw do
   root to: 'home#index'
 
   resources :genes
+  resources :analyses do
+    member do
+      get 'queue', to: 'analyses#queue'
+    end
+  end
 end
