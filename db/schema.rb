@@ -10,18 +10,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180425194000) do
+ActiveRecord::Schema.define(version: 2018_05_08_001513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "analyses", force: :cascade do |t|
+    t.bigint "gene_id"
+    t.integer "number_splices", default: 1
+    t.integer "intron_min_length", default: 3
+    t.integer "intron_max_length"
+    t.integer "exon_min_length", default: 3
+    t.integer "exon_max_length"
+    t.float "acceptor_cutoff", default: 2.2
+    t.float "donor_cutoff", default: 4.5
+    t.boolean "display_stop", default: true
+    t.boolean "display_cu", default: true
+    t.integer "cu_size", default: 20
+    t.integer "max_isoforms", default: 10
+    t.integer "donors", array: true
+    t.integer "acceptors", array: true
+    t.text "isoforms", array: true
+    t.datetime "queued_at"
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.datetime "canceled_at"
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["gene_id"], name: "index_analyses_on_gene_id"
+  end
 
   create_table "genes", force: :cascade do |t|
     t.string "name"
     t.text "original_sequence"
     t.text "sequence"
-    t.integer "donors", array: true
-    t.integer "acceptors", array: true
-    t.text "isoforms", array: true
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -55,5 +78,6 @@ ActiveRecord::Schema.define(version: 20180425194000) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "analyses", "genes"
   add_foreign_key "genes", "users"
 end

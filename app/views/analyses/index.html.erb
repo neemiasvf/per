@@ -1,0 +1,54 @@
+<% title 'Analyses' %>
+<% page_header 'Analyses' %>
+<% new_button 'analysis' %>
+
+<div class="card">
+  <div class="card-header">
+    <i class="fas fa-cogs"></i> Registered Analyses</div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <div id="dataTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+        <div class="row">
+          <table class="table table-bordered dataTable" cellspacing="0">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Gene</th>
+              <th>Nº of Splices</th>
+              <th>Intron Range</th>
+              <th>Exon Range</th>
+              <th>Acceptor Cutoff</th>
+              <th>Donor Cutoff</th>
+              <th>Codon Size</th>
+              <th>Status</th>
+              <th>Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @analyses.each do |analysis| %>
+              <tr>
+                <td><%= analysis.id %></td>
+                <td><%= analysis.gene %></td>
+                <td><%= analysis.number_splices %></td>
+                <td><%= analysis.intron_min_length %> – <%= analysis.intron_max_length %></td>
+                <td><%= analysis.exon_min_length %> – <%= analysis.exon_max_length %></td>
+                <td><%= analysis.acceptor_cutoff %></td>
+                <td><%= analysis.donor_cutoff %></td>
+                <td><%= analysis.cu_size %></td>
+                <td><%= status_badge analysis.status %></td>
+                <td class="text-center">
+                  <%= show_button_for_index 'analysis', analysis %>
+                  <%= edit_button_for_index 'analysis', analysis %>
+                  <%= destroy_button_for_index 'analysis', analysis %>
+                </td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>

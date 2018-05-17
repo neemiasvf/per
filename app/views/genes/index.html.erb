@@ -2,11 +2,9 @@
 <% page_header 'Genes' %>
 <% new_button 'gene' %>
 
-<p id="notice"><%= notice %></p>
-
 <div class="card">
   <div class="card-header">
-    <i class="fa fa-flask"></i> Registered Genes</div>
+    <i class="fas fa-flask"></i> Registered Genes</div>
   <div class="card-body">
     <div class="table-responsive">
       <div id="dataTable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
@@ -25,9 +23,9 @@
                 <td><%= gene.name %></td>
                 <td><%= truncated_sequence gene.original_sequence %></td>
                 <td class="text-center">
-                  <%= link_to 'Show', gene, class: 'btn btn-info' %>
-                  <%= link_to 'Edit', edit_gene_path(gene), class: 'btn btn-warning' %>
-                  <%= link_to 'Destroy', gene, method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger' %>
+                  <%= show_button_for_index 'gene', gene %>
+                  <%= edit_button_for_index 'gene', gene %>
+                  <%= destroy_button_for_index 'gene', gene %>
                 </td>
               </tr>
             <% end %>

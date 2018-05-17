@@ -1,0 +1,65 @@
+<% title 'Analysis Details' %>
+<% page_header 'Analysis Details' %>
+<% optional_description "##{@analysis.id}" %>
+<% queue_button @analysis unless @analysis.finished? %>
+<% edit_button 'analysis' %>
+<% back_button %>
+
+<p>
+  <strong>Gene:</strong>
+  <%= @analysis.gene %>
+</p>
+
+<p>
+  <strong>Number of Splices:</strong>
+  <%= @analysis.number_splices %>
+</p>
+
+<p>
+  <strong>Intron Range:</strong>
+  <%= @analysis.intron_min_length %> – <%= @analysis.intron_max_length %>
+</p>
+
+<p>
+  <strong>Exon Range:</strong>
+  <%= @analysis.exon_min_length %> – <%= @analysis.exon_max_length %>
+</p>
+
+<p>
+  <strong>Acceptor Cutoff Value:</strong>
+  <%= @analysis.acceptor_cutoff %>
+</p>
+
+<p>
+  <strong>Donor Cutoff Value:</strong>
+  <%= @analysis.donor_cutoff %>
+</p>
+
+<p>
+  <strong>Display Stop Codons:</strong>
+  <%= @analysis.display_stop %>
+</p>
+
+<p>
+  <strong>Display Codon Usage:</strong>
+  <%= @analysis.display_cu %>
+</p>
+
+<p>
+  <strong>Codon Usage Windowsize:</strong>
+  <%= @analysis.cu_size %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <div class='col-sm-2'><%= status_badge @analysis.status %></div>
+</p>
+
+<% if @analysis.finished? %>
+  <p>
+    <strong>Isoforms:</strong>
+    <% @analysis.isoforms.each do |isoform| %>
+    <p class='wrap-text'><%= isoform %></p>
+    <% end %>
+  </p>
+<% end %>

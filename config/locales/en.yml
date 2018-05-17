@@ -21,3 +21,17 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    attributes:
+      analysis:
+        number_splices: Number of Splices
+        intron_min_length: Intron Minimum Length
+        intron_max_length: Intron Maximum Length
+        exon_min_length: Exon Minimum Length
+        exon_max_length: Exon Maximum Length
+        acceptor_cutoff: Acceptor Cutoff Value
+        donor_cutoff: Donor Cutoff Value
+        display_stop: Display Stop Codons
+        display_cu: Display Codon Usage
+        cu_size: Codon Usage Windowsize
+        max_isoforms: Maximum Number of Isoforms

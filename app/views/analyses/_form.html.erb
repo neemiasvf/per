@@ -1,0 +1,22 @@
+<%= simple_form_for(@analysis) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.association :gene %>
+    <%= f.input :number_splices %>
+    <%= f.input :intron_min_length %>
+    <%= f.input :intron_max_length, hint: 'Infinity if left blank' %>
+    <%= f.input :exon_min_length %>
+    <%= f.input :exon_max_length, hint: 'Infinity if left blank' %>
+    <%= f.input :acceptor_cutoff, as: :select, collection: ACCEPTOR_CUTOFF_VALUES %>
+    <%= f.input :donor_cutoff, as: :select, collection: DONOR_CUTOFF_VALUES %>
+    <%= f.input :display_stop %>
+    <%= f.input :display_cu %>
+    <%= f.input :cu_size, as: :select, collection: CU_SIZE %>
+    <%= f.input :max_isoforms, hint: 'Use this to limit the number of isoforms analyzed' %>
+  </div>
+
+  <div class="form-actions">
+    <%= save_button %>
+  </div>
+<% end %>
