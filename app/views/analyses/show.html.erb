@@ -52,8 +52,19 @@
 
 <p>
   <strong>Status:</strong>
-  <div class='col-sm-2'><%= status_badge @analysis.status %></div>
+  <div class='col-2'><%= status_badge @analysis.status %></div>
 </p>
+
+<% if @analysis.started? %>
+  <p>
+    <strong>Progress:</strong>
+    <div class="col-4">
+      <div class="progress">
+        <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="<%= @analysis.progress %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= @analysis.progress %>%;"><%= @analysis.progress %>%</div>
+      </div>
+    </div>
+  </p>
+<% end %>
 
 <% if @analysis.finished? %>
   <p>

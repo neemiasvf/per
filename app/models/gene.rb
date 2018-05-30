@@ -18,7 +18,7 @@ class Gene < ApplicationRecord
   validates :user_id, :name, :original_sequence, presence: true
   validates :name, uniqueness: { case_sensitive: false, scope: :user_id }
 
-  after_create_commit :treat_sequence
+  before_save :treat_sequence
 
   # Polishes the original sequence for analysis purposes
   # 1. Cuts the sequence where the start codon "ATG" is found (everything before that is removed);
