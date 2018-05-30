@@ -1,5 +1,5 @@
 class AnalyzerJob < ApplicationJob
-  queue_as :default
+  queue_as :analyses
 
   def analysis
     arguments.first
