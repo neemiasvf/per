@@ -44,6 +44,10 @@ class Analysis < ApplicationRecord
     self[:exon_max_length].nil? ? Float::INFINITY : self[:exon_max_length]
   end
 
+  def started?
+    self[:status] == 'Started'
+  end
+
   def finished?
     self[:status] == 'Finished'
   end

@@ -116,6 +116,15 @@ class Analyzer
         # If the current mutation does not meet the number of splices yet, then find the next donor by starting all over again.
         if @current_mutation.size / 2 == @analysis.number_splices
           @mutations.push Array.new(@current_mutation)
+
+          # Progress Update
+          # Calculates how much of the analysis was completed so far (in %).
+          # The maximum percentage completion for this step of the analysis is 90%.
+          # When having 2 or more splices, not all donors will be iterated, which will interfere in the progress calculation.
+          # Because of that, decreasing the number of donors in the calculation will help get more accurate results.
+          current_progess = 90 * @analysis.donors.index(@mutations.last.first) / (@analysis.donors.size - (@analysis.number_splices - 1))
+          @analysis.update_columns(progress: current_progess) if current_progess > @analysis.progress
+
         else
           splice(current_acceptor)
           # •-> returns to this point after looping through all donors for the current acceptor
@@ -140,6 +149,11 @@ class Analyzer
 
   # Assembles isoforms strings based on valid combinations (mutations), refines the results and sorts them based on their similarity score.
   def post_splice
+
+    # Progress Update
+    # At this point, 90% of the analysis will have been completed.
+    @analysis.update_columns(progress: 90)
+
     isoforms = {}
     @mutations.each do |mutation|
       sequence_size = @analysis.sequence.size
@@ -195,6 +209,6 @@ class Analyzer
       end
     end
     isoforms = isoforms.sort_by { |isoform_string, similarity_score| similarity_score }.to_h.keys  # sort isoforms by similarity score
-    @analysis.update_columns(isoforms: isoforms)
+    @analysis.update_columns(isoforms: isoforms, progress: 100)
   end
 end
