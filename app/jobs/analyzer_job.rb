@@ -14,7 +14,7 @@ class AnalyzerJob < ApplicationJob
   end
 
   after_perform do
-    analysis.update_columns(finished_at: DateTime.now, status: 3)
+    analysis.update_columns(completed_at: DateTime.now, status: 3)
   end
 
   def perform(analysis)

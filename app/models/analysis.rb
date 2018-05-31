@@ -30,7 +30,7 @@
 class Analysis < ApplicationRecord
   belongs_to :gene, inverse_of: :analyses
 
-  enum status: %w(New Queued Started Finished Canceled)
+  enum status: ['New', 'Pending', 'In Progress', 'Completed', 'Canceled']
 
   validates :gene_id, presence: true
 
@@ -44,11 +44,11 @@ class Analysis < ApplicationRecord
     self[:exon_max_length].nil? ? Float::INFINITY : self[:exon_max_length]
   end
 
-  def started?
-    self[:status] == 'Started'
+  def in_progress?
+    self[:status] == 'In Progress'
   end
 
-  def finished?
-    self[:status] == 'Finished'
+  def completed?
+    self[:status] == 'Completed'
   end
 end

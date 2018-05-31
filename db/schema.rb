@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_30_172238) do
+ActiveRecord::Schema.define(version: 2018_05_31_211341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2018_05_30_172238) do
     t.text "isoforms", array: true
     t.datetime "queued_at"
     t.datetime "started_at"
-    t.datetime "finished_at"
+    t.datetime "completed_at"
     t.datetime "canceled_at"
     t.integer "status", default: 0
     t.datetime "created_at", null: false

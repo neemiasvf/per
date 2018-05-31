@@ -3,11 +3,11 @@ module AnalysesHelper
     case status
       when 'New' then
         content_tag :h5, (content_tag :span, status, class: 'badge col-sm badge-dark')
-      when 'Queued' then
-        content_tag :h5, (content_tag :span, status, class: 'badge col-sm badge-primary')
-      when 'Started' then
+      when 'Pending' then
         content_tag :h5, (content_tag :span, status, class: 'badge col-sm badge-warning')
-      when 'Finished' then
+      when 'In Progress' then
+        content_tag :h5, (content_tag :span, status, class: 'badge col-sm badge-info')
+      when 'Completed' then
         content_tag :h5, (content_tag :span, status, class: 'badge col-sm badge-success')
       when 'Canceled' then
         content_tag :h5, (content_tag :span, status, class: 'badge col-sm badge-danger')

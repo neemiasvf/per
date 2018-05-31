@@ -34,5 +34,5 @@ RSpec.describe Analysis, type: :model do
 
   it { should validate_presence_of :gene_id }
 
-  it { should define_enum_for(:status).with(%w(New Queued Started Finished Canceled)) }
+  it { should define_enum_for(:status).with(['New', 'Pending', 'In Progress', 'Completed', 'Canceled']) }
 end

@@ -1,7 +1,7 @@
 <% title 'Analysis Details' %>
 <% page_header 'Analysis Details' %>
 <% optional_description "##{@analysis.id}" %>
-<% queue_button @analysis unless @analysis.finished? %>
+<% queue_button @analysis unless @analysis.completed? %>
 <% edit_button 'analysis' %>
 <% back_button %>
 
@@ -55,18 +55,18 @@
   <div class='col-2'><%= status_badge @analysis.status %></div>
 </p>
 
-<% if @analysis.started? %>
+<% if @analysis.in_progress? %>
   <p>
     <strong>Progress:</strong>
     <div class="col-4">
       <div class="progress">
-        <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="<%= @analysis.progress %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= @analysis.progress %>%;"><%= @analysis.progress %>%</div>
+        <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="<%= @analysis.progress %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= @analysis.progress %>%;"><%= @analysis.progress %>%</div>
       </div>
     </div>
   </p>
 <% end %>
 
-<% if @analysis.finished? %>
+<% if @analysis.completed? %>
   <p>
     <strong>Isoforms:</strong>
     <% @analysis.isoforms.each do |isoform| %>
