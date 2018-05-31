@@ -16,6 +16,7 @@ gem 'jquery-rails', '~> 4.3', '>= 4.3.3'
 gem 'turbolinks', '~> 5.1', '>= 5.1.1'
 gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '~> 1.3'
+gem 'backburner', '~> 1.4', '>= 1.4.1'
 # gem 'therubyracer', '~> 0.12.3', platform: :ruby
 
 group :development, :test do

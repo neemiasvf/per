@@ -102,7 +102,9 @@ cucumber:
 
 auto deploy staging:
   <<: *deploy
-  script: bundle exec cap production deploy
+  script:
+    - bundle exec cap production deploy
+    - bundle exec backburner -d -P /home/neemiasvf/apps/per/shared/tmp/pids/backburner.pid -l /home/neemiasvf/apps/per/shared/log/backburner.log
   environment:
     name: staging
-    url: http://per.neemiasvf.me
+    url: https://per.neemiasvf.me

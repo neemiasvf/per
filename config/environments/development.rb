@@ -65,4 +65,7 @@ Rails.application.configure do
       authentication:       'plain',
       enable_starttls_auto: true
   }
+
+  # Backburner
+  # config.active_job.queue_adapter = :backburner
 end
