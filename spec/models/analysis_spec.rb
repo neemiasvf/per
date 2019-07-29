@@ -20,11 +20,12 @@
 #  isoforms          :text             is an Array
 #  queued_at         :datetime
 #  started_at        :datetime
-#  finished_at       :datetime
+#  completed_at      :datetime
 #  canceled_at       :datetime
 #  status            :integer          default("New")
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  progress          :integer          default(0)
 #
 
 require 'rails_helper'
