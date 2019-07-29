@@ -119,11 +119,11 @@ class Analyzer
 
           # Progress Update
           # Calculates how much of the analysis was completed so far (in %).
-          # The maximum percentage completion for this step of the analysis is 90%.
+          # The maximum percentage completion for this step of the analysis is 50%.
           # When having 2 or more splices, not all donors will be iterated, which will interfere in the progress calculation.
           # Because of that, decreasing the number of donors in the calculation will help get more accurate results.
-          current_progess = 90 * @analysis.donors.index(@mutations.last.first) / (@analysis.donors.size - (@analysis.number_splices - 1))
-          @analysis.update_columns(progress: current_progess) if current_progess > @analysis.progress
+          current_progress = 50 * @analysis.donors.index(@mutations.last.first) / (@analysis.donors.size - (@analysis.number_splices - 1))
+          @analysis.update_columns(progress: current_progress) if current_progress - @analysis.progress > 5
 
         else
           splice(current_acceptor)
@@ -149,13 +149,14 @@ class Analyzer
 
   # Assembles isoforms strings based on valid combinations (mutations), refines the results and sorts them based on their similarity score.
   def post_splice
-
-    # Progress Update
-    # At this point, 90% of the analysis will have been completed.
-    @analysis.update_columns(progress: 90)
-
     isoforms = {}
-    @mutations.each do |mutation|
+    @mutations.each_with_index do |mutation, mutation_index|
+      # Progress Update
+      # Calculates how much of the analysis was completed so far (in %).
+      # The maximum percentage completion for this step of the analysis is 100%.
+      current_progress = 50 + (50 * mutation_index / @mutations.count)
+      @analysis.update_columns(progress: current_progress) if current_progress - @analysis.progress > 5
+
       sequence_size = @analysis.sequence.size
       # When calculating the length of the sequence after the splicing,
       # we want to remove the nucleotides BETWEEN the donor and acceptor (introns).
@@ -173,12 +174,15 @@ class Analyzer
         (1..mutation.size).step(2).each { |index| isoform_string.slice! mutation[index-1]...mutation[index]-1 }
 
         # REQUIREMENT: STOP CODON
-        # The isoform must end with a stop codon.
+        # The isoform must end with a stop codon after the last splice/intron.
         # A stop codon can be either "TGA", "TAG" or "TAA".
         # If any of the above is found, the isoform is cut there.
         # If none of the above is found, the isoform is not changed.
-        if isoform_string.index(/TGA|TAG|TAA/)
-          isoform_string = isoform_string[0..isoform_string.index(/TGA|TAG|TAA/) + 2]
+        (3..isoform_string.size).step(3).each do |index|
+          if index >= mutation.last and isoform_string[index-3...index].match?(/TGA|TAG|TAA/)
+            isoform_string = isoform_string[0...index]
+            break
+          end
         end
 
         # REQUIREMENT: SIMILARITY SCORE
