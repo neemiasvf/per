@@ -27,6 +27,8 @@ class Gene < ApplicationRecord
     unless self[:original_sequence].nil?
       self[:sequence] = self[:original_sequence][self[:original_sequence].index('ATG')..-1]
       self[:sequence].gsub!('U', 'T')
+      self[:sequence].strip!
+      self[:sequence].gsub!(/[^0-9a-z ]/i, '')
     end
   end
 
